@@ -8,9 +8,13 @@ rMBC = importr("MBC")
 def MBCn(obs_dat,mod_dat,mod_nf,num_iter,ratio_seq):
     '''Calculates for the Multivate Bias Correction using N-pdft of climate model outputs from MBC package by 
     Cannon (2018) <doi:10.1007/s00382-017-3580-6>'''
+   
+    #### Store input descriptions ####
     var_list,var_count = list(obs_dat.keys()),len(obs_dat.keys())
     shape = np.array(obs_dat[var_list[0]].shape)
     size = np.prod(shape)
+    
+    #### Inputs must have the same lengths, so check for lengths ####
     print('Checking if Datasets has equal legnths')
     check1 = np.array_equal(np.array(obs[var_list[0]].shape),np.array(obs[var_list[0]].shape))
     check2 = np.array_equal(np.array(obs[var_list[0]].shape),np.array(hist[var_list[0]].shape))
@@ -20,6 +24,7 @@ def MBCn(obs_dat,mod_dat,mod_nf,num_iter,ratio_seq):
         print('Datasets does not have the same dimension lengths, abort executing script and Sayonara!')
         import sys 
         sys.exit()
+    ### Begin processing inputs and executing MBCn aglorith ####    
     dat1,dat2,dat3=[],[],[]
     for i in var_list:
         joint_obs = obs_dat[i].values.reshape(-1)
@@ -31,9 +36,9 @@ def MBCn(obs_dat,mod_dat,mod_nf,num_iter,ratio_seq):
     obs1,hist1,proj1 = np.dstack(dat1).reshape(size,var_count),np.dstack(dat2).reshape(size,var_count),np.dstack(dat3).reshape(size,var_count)
     
     rf = rMBC.MBCn(obs1,hist1,proj1,num_iter,qmap_precalc=False,ratio_seq=ratio_seq)[0]
-    nf = rMBC.MBCn(obs1,hist1,proj1,num_iter,qmap_precalc=False,ratio_seq=ratio_seq)[1]
-        
+    nf = rMBC.MBCn(obs1,hist1,proj1,num_iter,qmap_precalc=False,ratio_seq=ratio_seq)[1]      
     model_rf,model_nf = np.hsplit(rf,var_count),np.hsplit(nf,var_count)
+    
     ref,pred = {},{}
     for i in range(var_count):
         ref["oc" + str(i)] = model_rf[i].reshape(shape)
