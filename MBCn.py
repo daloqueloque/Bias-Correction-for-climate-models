@@ -44,9 +44,9 @@ def MBCn(obs_dat,mod_dat,mod_nf,num_iter,ratio_seq):
         ref["oc" + str(i)] = model_rf[i].reshape(shape)
     for i in range(var_count):
         pred["pc" + str(i)] = model_nf[i].reshape(shape)
+    
     lists1,lists2 = [*ref.keys()],[*pred.keys()]
-    oc = mod_dat
-    pc = mod_nf
+    oc,pc = mod_dat,mod_nf
     for j,k in enumerate(var_list):
         oc[k] = (oc[k]*0+1)*ref[lists1[j]]
         pc[k] = (pc[k]*0+1)*pred[lists2[j]]
