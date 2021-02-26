@@ -51,6 +51,6 @@ def MBCn(obs_dat,mod_dat,mod_nf,num_iter):
         pc[k] = (pc[k]*0+1)*pred[lists2[j]]
         
     end = time.time()
-    print("▮▮▮ Elapsed time in real time :" , time.strftime("%m",time.gmtime(end-start)),"minutes ▮▮▮")
+    print("▮▮▮ Elapsed time in real time :" , time.strftime("%M",time.gmtime(end-start)),"minutes ▮▮▮")
     
     return(oc,pc)
