@@ -5,7 +5,7 @@ from rpy2.robjects.packages import importr
 pandas2ri.activate()
 rMBC = importr("MBC")
 
-def MBCn(obs_dat,mod_dat,mod_nf,num_iter,ratio_seq):
+def MBCn(obs_dat,mod_dat,mod_nf,num_iter):
     '''Calculates for the Multivate Bias Correction using N-pdft of climate model outputs from MBC package by 
     Cannon (2018) <doi:10.1007/s00382-017-3580-6>'''
    
@@ -35,8 +35,8 @@ def MBCn(obs_dat,mod_dat,mod_nf,num_iter,ratio_seq):
         dat3.append(joint_proj)
     obs1,hist1,proj1 = np.dstack(dat1).reshape(size,var_count),np.dstack(dat2).reshape(size,var_count),np.dstack(dat3).reshape(size,var_count)
     
-    rf = rMBC.MBCn(obs1,hist1,proj1,num_iter,qmap_precalc=False,ratio_seq=ratio_seq)[0]
-    nf = rMBC.MBCn(obs1,hist1,proj1,num_iter,qmap_precalc=False,ratio_seq=ratio_seq)[1]      
+    rf = rMBC.MBCn(obs1,hist1,proj1,num_iter,qmap_precalc=False,ratio_seq=np.repeat(False,var_count))[0]
+    nf = rMBC.MBCn(obs1,hist1,proj1,num_iter,qmap_precalc=False,ratio_seq=np.repeat(False,var_count))[1]      
     model_rf,model_nf = np.hsplit(rf,var_count),np.hsplit(nf,var_count)
     
     ref,pred = {},{}
