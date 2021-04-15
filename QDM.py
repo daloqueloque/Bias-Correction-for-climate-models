@@ -15,6 +15,7 @@ def QDM_proj(obs_dat,mod_dat,mod_nf):
 def apply_QDM(obs_dat,mod_dat,mod_nf):
     import time
     start = time.time()
+    
     var_list = list(obs_dat.keys())
     mod_nf = mod_nf.rename({'time':'time2'})
     time1 = mod_dat['time'].values
