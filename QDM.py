@@ -31,9 +31,8 @@ def apply_QDM(obs_dat,mod_dat,mod_nf,**kwargs):
     pc = proj.assign_coords({'time2':time2}).transpose('time2','latitude','longitude').rename({'time2':'time'})
     
     end = time.time()
-    elapsed = end-start
-    if elapsed<60:
-        print("▮▮▮ Elapsed time in real time :" , time.strftime("%M:%S",time.gmtime(elapsed)),"seconds ▮▮▮")
+    if (end-start)<60:
+        print("▮▮▮ Elapsed time in real time :" , time.strftime("%M:%S",time.gmtime(end-start)),"seconds ▮▮▮")
     else:
-        print("▮▮▮ Elapsed time in real time :" , time.strftime("%M:%S",time.gmtime(elapsed)),"minutes ▮▮▮")
+        print("▮▮▮ Elapsed time in real time :" , time.strftime("%M:%S",time.gmtime(end-start)),"minutes ▮▮▮")
     return oc,pc
