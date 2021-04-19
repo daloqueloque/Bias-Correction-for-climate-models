@@ -23,10 +23,10 @@ def apply_QDM(obs_dat,mod_dat,mod_nf,**kwargs):
     time2 = mod_nf['time2'].values
     hist = xr.apply_ufunc(QDM_hist, obs_dat.drop('time'), mod_dat.drop('time'), mod_nf.drop('time2'),
                       kwargs=kwargs,input_core_dims=[['time'],['time'],['time2']],
-                      output_core_dims=[['time']], vectorize=True,dask='parallelized')
+                      output_core_dims=[['time']], vectorize=True,dask='parallelized', output_dtypes=['float_'])
     proj = xr.apply_ufunc(QDM_proj, obs_dat.drop('time'), mod_dat.drop('time'), mod_nf.drop('time2'),
                       kwargs=kwargs,input_core_dims=[['time'],['time'],['time2']],
-                      output_core_dims=[['time2']], vectorize=True,dask='parallelized')
+                      output_core_dims=[['time2']], vectorize=True,dask='parallelized', output_dtypes=['float_'])
     oc = hist.assign_coords({'time':time1}).transpose('time','latitude','longitude')
     pc = proj.assign_coords({'time2':time2}).transpose('time2','latitude','longitude').rename({'time2':'time'})
     
